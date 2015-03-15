@@ -18,7 +18,7 @@ view-matchers exposes some useful matchers for view specs. They are individually
 
 #### match_table
 
-You can match a table in a rendered view within a describe context with `have_table`.
+You can match a table in a rendered view within a describe context with `match_table`.
 
 ```ruby
 # spec/views/table_spec.rb
