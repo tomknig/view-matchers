@@ -111,6 +111,18 @@ module ViewMatchers
       it 'matches the exact same table' do
         expect(rendered).to match_table %(
           +----------+----------+----------+
+          |   Number |  Product |    Price |
+          +----------+----------+----------+
+          |        1 | Computer |  42,00 € |
+          +----------+----------+----------+
+          |        2 |    Phone |  21,00 € |
+          +----------+----------+----------+
+        )
+      end
+
+      it 'matches vertically partially existing table' do
+        expect(rendered).to match_table %(
+          +----------+----------+----------+
           |        1 | Computer |  42,00 € |
           +----------+----------+----------+
           |        2 |    Phone |  21,00 € |
