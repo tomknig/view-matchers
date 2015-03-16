@@ -1,5 +1,4 @@
 require 'view/matchers/table_matcher/table'
-require 'nokogiri'
 
 module ViewMatchers
   module TableMatcher
