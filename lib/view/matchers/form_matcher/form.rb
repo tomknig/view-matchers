@@ -7,7 +7,7 @@ module ViewMatchers
       end
 
       def matches?(actual_form)
-        @actual_form = actual_form
+        @scope = actual_form
         @matches = true
         instance_eval(&@block)
         @matches
@@ -28,14 +28,27 @@ module ViewMatchers
       end
 
       def matches_selector?(selector, name, hash = nil, &block)
+        matches = @scope.xpath xpath_for(selector, name, hash)
+        if matches.any?
+          if block_given?
+            scope = @scope
+            @scope = matches
+            retval = instance_eval(&block)
+            @scope = scope
+            return retval
+          end
+          return true
+        else
+          failures[name] = selector
+          return false
+        end
+      end
+
+      def xpath_for(selector, name, hash = nil)
         matcher = ''
         matcher << matcher_for('name', name) if name
         hash.keys.each { |key| matcher << matcher_for(key, hash[key]) } if hash
-        matches = @actual_form.xpath("//#{selector}#{matcher}").any?
-        # the instance_evals block should now be namespaces within currently found selector
-        instance_eval(&block) if matches && block_given?
-        failures[name] = selector unless matches
-        matches
+        "#{selector}#{matcher}"
       end
 
       def matcher_for(key, value)

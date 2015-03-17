@@ -13,11 +13,13 @@ module ViewMatchers
               <input type="password" name="client[password]"></div>
               <input type="password" name="client[password_confirmation]"></div>
               <select name="client[supplier_id]">
-                <option value=""></option>
-                <option value="1">Eine kleine Firma</option>
+                <option value="1" selected>Eine kleine Firma</option>
+                <option value="2">Eine andere Firma</option>
               </select>
               <input type="submit" name="commit">
+              <option value="outside select"></option>
             </form>
+            <option value="outside form"></option>
           <body>
         <html>
       )
@@ -33,6 +35,29 @@ module ViewMatchers
           input 'client[password_confirmation]', type: 'password'
           select 'client[supplier_id]' do
             option nil, value: '1'
+            option nil, value: '2'
+          end
+        }
+      end
+
+      it 'matches selected options within a select' do
+        expect(rendered).to match_form proc {
+          select 'client[supplier_id]' do
+            option nil, value: '2'
+          end
+        }
+      end
+
+      it 'does not match elements outside a form' do
+        expect(rendered).not_to match_form proc {
+          option nil, value: 'outside form'
+        }
+      end
+
+      it 'does not match options outside the select' do
+        expect(rendered).not_to match_form proc {
+          select 'client[supplier_id]' do
+            option nil, value: 'outside select'
           end
         }
       end
