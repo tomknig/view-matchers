@@ -1,6 +1,8 @@
 # view-matchers
 RSpec-compatible testing matchers for common view contents.
-Define ascii-tables and match thei existence with `have_table`.
+
+* **[match_table](#match_table)**: write ascii-tables and match their existence
+* **[match_form](#match_form)**: expressive matching for form fields
 
 ## Installation
 
@@ -12,7 +14,7 @@ group :test do
 end
 ```
 
-## Usage
+## Matchers
 
 view-matchers exposes some useful matchers for view specs. They are individually documented below.
 
@@ -38,7 +40,7 @@ end
 #### match_form
 
 You can match a table in a rendered view within a spec with `match_form`.
-`match_form` takes a `Proc` as argument. Methodnames within the `Proc` are interpreted as HTML-Tag matchers. The first parameter of these methods matches the `name` attribute. The name can be followed by arbitrary attribute names and values. The last parameter is an optional block, that can be provided to match nested tags.
+`match_form` takes a `Proc` as argument. Methodnames within the `Proc` are interpreted as HTML-Tag matchers. The first parameter of these methods matches the `name` attribute, which can be followed by arbitrary attribute names and values. The last parameter is an optional block, that can be provided to match nested tags.
 
 ```ruby
 # spec/views/sign_up_spec.rb
@@ -55,10 +57,10 @@ it 'renders a sign up form' do
 end
 ```
 
-## Contribution & Contributors
+## Contribution
 
-I'd love to see your ideas for improving this library!
-The best way to contribute is by submitting a pull request or a [new Github issue](https://github.com/TomKnig/view-matchers/issues/new). :octocat:
+I'd love to see your ideas!
+I do really appreciate pull requests and [Github issues](https://github.com/TomKnig/view-matchers/issues/new). :octocat:
 
 ## Author
 
