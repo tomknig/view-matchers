@@ -4,7 +4,7 @@ require 'view/matchers/version'
 Gem::Specification.new do |s|
   s.name        = 'view-matchers'
   s.version     = ViewMatchers::VERSION
-  s.date        = Time.now.strftime('%d.%m.%Y')
+  s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = 'RSpec-compatible testing matchers for common view contents.'
   s.description = 'Expressive and non verbose view tests.'
   s.authors     = ['Tom König']
