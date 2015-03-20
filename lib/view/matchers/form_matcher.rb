@@ -17,11 +17,27 @@ module ViewMatchers
     end
 
     def failure_message
-      @form.failure_messages 'did not exist'
+      "the following expected tags did not exist:\n" <<
+        failure_messages
     end
 
     def failure_message_when_negated
-      @form.failure_messages 'did exist'
+      "the following not expected tags actually did exist:\n" <<
+        failure_messages
+    end
+
+    private
+
+    INSET = '  '
+
+    def failure_messages
+      failures = @form.failures
+      messages = failures.keys.map do |selector|
+        failures[selector].map do |message|
+          "#{INSET}#{selector} #{message}"
+        end
+      end
+      messages.flatten.join("\n")
     end
   end
 end

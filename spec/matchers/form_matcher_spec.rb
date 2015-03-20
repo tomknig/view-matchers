@@ -18,7 +18,7 @@ module ViewMatchers
                 <option value="1" selected>Eine kleine Firma</option>
                 <option value="2">Eine andere Firma</option>
               </select>
-              <input type="submit" name="commit">
+              <input type="submit" name="commit" class="btn btn-primary">
               <option value="outside select"></option>
             </form>
             <option value="outside form"></option>
@@ -32,13 +32,24 @@ module ViewMatchers
         expect(rendered).to match_form proc {
           input 'utf8', type: 'hidden', value: '✓'
           input 'authenticity_token', type: 'hidden', value: '...'
-          input 'client[email]', type: 'email'
           input 'client[password]', type: 'password'
           input 'client[password_confirmation]', type: 'password'
           select 'client[supplier_id]' do
             option nil, value: '1'
             option nil, value: '2'
           end
+        }
+      end
+
+      it 'matches nested form elements' do
+        expect(rendered).to match_form proc {
+          input 'client[email]', type: 'email'
+        }
+      end
+
+      it 'matches attributes fuzzily' do
+        expect(rendered).to match_form proc {
+          input 'commit', class: 'btn'
         }
       end
 
