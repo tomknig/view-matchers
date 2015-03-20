@@ -46,7 +46,7 @@ module ViewMatchers
       matcher = ''
       matcher << matcher_for('name', name) if name
       hash.keys.each { |key| matcher << matcher_for(key, hash[key]) } if hash
-      "#{selector}#{matcher}"
+      ".//#{selector}#{matcher}"
     end
 
     def matcher_for(key, value)

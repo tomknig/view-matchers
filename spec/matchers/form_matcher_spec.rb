@@ -9,9 +9,11 @@ module ViewMatchers
             <form action="/clients" accept-charset="UTF-8" method="post">
               <input name="utf8" type="hidden" value="✓">
               <input name="authenticity_token" type="hidden" value="...">
-              <input type="email" name="client[email]"></div>
-              <input type="password" name="client[password]"></div>
-              <input type="password" name="client[password_confirmation]"></div>
+              <div class="input-group">
+                <input type="email" name="client[email]">
+              </div>
+              <input type="password" name="client[password]">
+              <input type="password" name="client[password_confirmation]">
               <select name="client[supplier_id]">
                 <option value="1" selected>Eine kleine Firma</option>
                 <option value="2">Eine andere Firma</option>
