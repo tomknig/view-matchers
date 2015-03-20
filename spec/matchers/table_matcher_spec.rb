@@ -16,9 +16,10 @@ module ViewMatchers
             <table>
               <thead>
                 <tr>
-                  <th>Number</th>
+                  <th>Quantity</th>
                   <th>Product</th>
                   <th>Price</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -26,11 +27,13 @@ module ViewMatchers
                   <td>1</td>
                   <td>Computer</td>
                   <td>42,00 €</td>
+                  <td>42,00 €</td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td>Phone</td>
                   <td>21,00 €</td>
+                  <td>42,00 €</td>
                 </tr>
               </tbody>
             </table>
@@ -88,10 +91,30 @@ module ViewMatchers
         )
       end
 
+      it 'does not confuse column indices when columns are equal' do
+        expect(rendered).not_to match_table %(
+          +----------+----------+
+          |  42,00 € |  42,00 € |
+          +----------+----------+
+          |    Phone |  21,00 € |
+          +----------+----------+
+        )
+      end
+
+      it 'does not confuse column indices when columns are equal' do
+        expect(rendered).to match_table %(
+          +----------+
+          |  42,00 € |
+          +----------+
+          |  21,00 € |
+          +----------+
+        )
+      end
+
       it 'does not match table with missing inner row' do
         expect(rendered).not_to match_table %(
           +----------+----------+----------+
-          |   Number |  Product |    Price |
+          | Quantity |  Product |    Price |
           +----------+----------+----------+
           |        2 |    Phone |  21,00 € |
           +----------+----------+----------+
@@ -111,7 +134,7 @@ module ViewMatchers
       it 'matches the exact same table' do
         expect(rendered).to match_table %(
           +----------+----------+----------+
-          |   Number |  Product |    Price |
+          | Quantity |  Product |    Price |
           +----------+----------+----------+
           |        1 | Computer |  42,00 € |
           +----------+----------+----------+
@@ -148,6 +171,16 @@ module ViewMatchers
         )
       end
 
+      it 'matches horizontally equal columns correctly' do
+        expect(rendered).to match_table %(
+          +----------+----------+
+          |  42,00 € |  42,00 € |
+          +----------+----------+
+          |  21,00 € |  42,00 € |
+          +----------+----------+
+        )
+      end
+
       it 'matches horizontally, partially existing table' do
         expect(rendered).to match_table %(
           +----------+----------+
@@ -161,7 +194,7 @@ module ViewMatchers
       it 'matches vertically, partially existing table' do
         expect(rendered).to match_table %(
           +----------+----------+----------+
-          |   Number |  Product |    Price |
+          | Quantity |  Product |    Price |
           +----------+----------+----------+
           |        1 | Computer |  42,00 € |
           +----------+----------+----------+

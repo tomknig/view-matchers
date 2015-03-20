@@ -31,7 +31,9 @@ module ViewMatchers
 
     def row_contains_row_from_index?(actual_row, expected_row, origin)
       offset = expected_row.length + origin - 1
-      (actual_row[origin..offset] & expected_row) == expected_row
+      actual_row = actual_row[origin..offset].map(&:rstrip)
+      expected_row.map!(&:rstrip)
+      actual_row == expected_row
     end
 
     def table_contained_continuously_from_index?(table, origin)
