@@ -1,31 +1,27 @@
 require 'view/matchers/form_matcher/form'
 
 module ViewMatchers
-  module FormMatcher
-    RSpec::Matchers.define :match_form do |expected|
-      match do |actual|
-        @form = Form.new(expected)
+  class FormMatcher
+    def initialize(expected)
+      @expected = expected
+    end
 
-        Nokogiri::HTML(actual).xpath('//form').each do |actual_form|
-          return true if @form.matches? actual_form
-        end
+    def matches?(target)
+      @form = Form.new(@expected)
 
-        false
+      Nokogiri::HTML(target).xpath('//form').each do |actual_form|
+        return true if @form.matches? actual_form
       end
 
-      failure_message do
-        @form.failure_message
-      end
+      false
+    end
 
-      failure_message_when_negated do
-        @form.failure_message_when_negated
-      end
+    def failure_message
+      @form.failure_messages 'did not exist'
+    end
 
-      description do
-        'match forms'
-      end
-
-      diffable
+    def failure_message_when_negated
+      @form.failure_messages 'did exist'
     end
   end
 end

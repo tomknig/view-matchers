@@ -6,11 +6,32 @@ RSpec-compatible testing matchers for common view contents.
 
 ## Installation
 
+#### Gem
+
 Include the gem in your Gemfile:
 
 ```ruby
 group :test do
   gem 'view-matchers'
+end
+```
+
+#### Matcher inclusion
+
+You can either include the matchers in a particular spec:
+
+```ruby
+describe 'a particular view with tables' do
+  include ViewMatchers
+  # ...
+end
+```
+
+... or include the matchers globally in a `spec_helper.rb` file:
+
+```ruby
+RSpec.configure do |config|
+  config.include ViewMatchers
 end
 ```
 
@@ -20,7 +41,8 @@ view-matchers exposes some useful matchers for view specs. They are individually
 
 #### match_table
 
-You can match a table in a rendered view within a spec with `match_table`.
+* You can match a table in a rendered view within a spec with `match_table`.
+* Matches are partial. The actually rendered table can - but does not have to - be a superset of the expected table to evaluate the expectation to true.
 
 ```ruby
 # spec/views/table_spec.rb
@@ -39,8 +61,9 @@ end
 
 #### match_form
 
-You can match a table in a rendered view within a spec with `match_form`.
-`match_form` takes a `Proc` as argument. Methodnames within the `Proc` are interpreted as HTML-Tag matchers. The first parameter of these methods matches the `name` attribute, which can be followed by arbitrary attribute names and values. The last parameter is an optional block, that can be provided to match nested tags.
+* You can match a table in a rendered view within a spec with `match_form`.
+* Matches are partial. The actually rendered form can - but does not have to - be a superset of the expected form to evaluate the expectation to true.
+* `match_form` takes a `Proc` as argument. Methodnames within the `Proc` are interpreted as HTML-Tag matchers. The first parameter of these methods matches the `name` attribute, which can be followed by arbitrary attribute names and values. The last parameter is an optional block, that can be provided to match nested tags.
 
 ```ruby
 # spec/views/sign_up_spec.rb
