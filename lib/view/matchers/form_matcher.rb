@@ -11,6 +11,7 @@ module ViewMatchers
 
       Nokogiri::HTML(target).xpath('//form').each do |actual_form|
         return true if @form.matches? actual_form
+        @failures = @form.failures if @form.failures.size < failures.size
       end
 
       false
@@ -31,13 +32,16 @@ module ViewMatchers
     INSET = '  '
 
     def failure_messages
-      failures = @form.failures
-      messages = failures.keys.map do |selector|
-        failures[selector].map do |message|
+      messages = @failures.keys.map do |selector|
+        @failures[selector].map do |message|
           "#{INSET}#{selector} #{message}"
         end
       end
       messages.flatten.join("\n")
+    end
+
+    def failures
+      @failures ||= @form.failures
     end
   end
 end

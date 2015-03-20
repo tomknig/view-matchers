@@ -1,19 +1,18 @@
 module ViewMatchers
   class Form
+    attr_reader :failures
+
     def initialize(block)
       @block = block
       self
     end
 
     def matches?(actual_form)
+      @failures = {}
       @scope = actual_form
       @matches = true
       instance_eval(&@block)
       @matches
-    end
-
-    def failures
-      @failures ||= {}
     end
 
     private
@@ -25,7 +24,8 @@ module ViewMatchers
     def matches_selector?(selector, name, hash = nil, &block)
       matches = @scope.xpath xpath_for(selector, name, hash)
       if matches.any?
-        return matches_nested_selectors? matches, &block
+        return matches_nested_selectors?(matches, &block) if block_given?
+        return true
       else
         add_failure selector, name, hash
         return false
@@ -33,14 +33,11 @@ module ViewMatchers
     end
 
     def matches_nested_selectors?(matches, &block)
-      if block_given?
-        scope = @scope
-        @scope = matches
-        retval = instance_eval(&block)
-        @scope = scope
-        return retval
-      end
-      true
+      scope = @scope
+      @scope = matches
+      retval = instance_eval(&block)
+      @scope = scope
+      retval
     end
 
     def xpath_for(selector, name, hash = nil)
