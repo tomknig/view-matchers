@@ -7,59 +7,66 @@ module ViewMatchers
       self
     end
 
-    def matches?(actual_form)
+    def exists_in_rendered?(actual_form)
       @failures = {}
-      @scope = actual_form
-      @matches = true
+      @current_scope = actual_form
+      @exists_in_rendered = true
       instance_eval(&@block)
-      @matches
+      @exists_in_rendered
     end
 
     private
 
     def method_missing(method, *args, &block)
-      @matches &= matches_selector? method, *args, &block
+      @exists_in_rendered &= matches_selector? method, *args, &block
     end
 
     def matches_selector?(selector, name, hash = nil, &block)
-      matches = @scope.xpath xpath_for(selector, name, hash)
+      matches = @current_scope.xpath xpath(selector, name, hash)
       if matches.any?
         return matches_nested_selectors?(matches, &block) if block_given?
         return true
       else
-        add_failure selector, name, hash
+        add_failure_message selector, name, hash
         return false
       end
     end
 
     def matches_nested_selectors?(matches, &block)
-      scope = @scope
-      @scope = matches
+      previous_scope = @current_scope
+      @current_scope = matches
       retval = instance_eval(&block)
-      @scope = scope
+      @current_scope = previous_scope
       retval
     end
 
-    def xpath_for(selector, name, hash = nil)
+    def xpath(selector, name, hash = nil)
       matcher = ''
-      matcher << explicit_matcher_for('name', name) if name
-      hash.keys.each { |key| matcher << fuzzy_matcher_for(key, hash[key]) } if hash
+      matcher << explicit_matcher('name', name) if name
+      hash.keys.each { |key| matcher << fuzzy_matcher(key, hash[key]) } if hash
       ".//#{selector}#{matcher}"
     end
 
-    def explicit_matcher_for(key, value)
+    def explicit_matcher(key, value)
       "[@#{key}=\"#{value}\"]"
     end
 
-    def fuzzy_matcher_for(key, value)
+    def fuzzy_matcher(key, value)
       "[contains(@#{key}, \"#{value}\")]"
     end
 
-    def add_failure(selector, name, hash)
-      failure = ''
-      failure << "named: #{name} " if name
-      failure << "with attributes: #{hash}" if hash
-      (failures[selector] ||= []) << failure
+    def add_failure_message(selector, name, hash)
+      failures_for_selector(selector) << selector.to_s +
+        failure_message('named', name).to_s +
+        failure_message('attributes', hash).to_s
+    end
+
+    def failure_message(description, object)
+      " #{description}: #{object} " if object
+    end
+
+    def failures_for_selector(selector)
+      failures[selector] ||= []
     end
 
     undef_method :select
