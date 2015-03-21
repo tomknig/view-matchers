@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.name        = 'view-matchers'
   s.version     = ViewMatchers::VERSION
   s.date        = Time.now.strftime('%Y-%m-%d')
-  s.summary     = 'RSpec-compatible testing matchers for common view contents.'
+  s.summary     = 'Expressive RSpec matchers for ascii tables and form fields.'
   s.description = 'Expressive and non verbose view tests.'
   s.authors     = ['Tom König']
   s.email       = 'hi@tomknig.de'

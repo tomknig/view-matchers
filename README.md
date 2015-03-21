@@ -1,8 +1,8 @@
 # view-matchers
-RSpec-compatible testing matchers for common view contents.
+Expressive RSpec matchers for ascii tables and form fields.
 
-* **[match_table](#match_table)**: write ascii-tables and match their existence
-* **[match_form](#match_form)**: expressive matching for form fields
+* **[match_table](#match_table)**: write ascii tables and match their existence
+* **[match_form](#match_form)**: match form fields with an expressive dsl
 
 ## Installation
 
