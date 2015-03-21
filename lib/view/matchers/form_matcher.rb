@@ -3,11 +3,10 @@ require 'view/matchers/form_matcher/form'
 module ViewMatchers
   class FormMatcher
     def initialize(expected)
-      @expected = expected
+      @expected = Form.new(expected)
     end
 
     def matches?(rendered)
-      @form = Form.new(@expected)
       expectation_exists_in_rendered? rendered
     end
 
@@ -25,7 +24,7 @@ module ViewMatchers
 
     def expectation_exists_in_rendered?(rendered)
       Nokogiri::HTML(rendered).xpath('//form').each do |rendered_form|
-        return true if @form.exists_in_rendered? rendered_form
+        return true if @expected.exists_in_rendered? rendered_form
         update_failure_messages
       end
 
@@ -33,7 +32,7 @@ module ViewMatchers
     end
 
     def update_failure_messages
-      current_failures = @form.failures
+      current_failures = @expected.failures
       @failures = current_failures if current_failures.size < failures.size
     end
 
@@ -45,7 +44,7 @@ module ViewMatchers
     end
 
     def failures
-      @failures ||= @form.failures
+      @failures ||= @expected.failures
     end
   end
 end
