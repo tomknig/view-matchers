@@ -16,7 +16,7 @@ Include the gem in your Gemfile:
 
 ```ruby
 group :test do
-  gem 'view-matchers'
+  gem 'view-matchers', '~> 1.0'
 end
 ```
 
