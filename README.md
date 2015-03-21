@@ -34,6 +34,8 @@ end
 ... or include the matchers globally in a `spec_helper.rb` file:
 
 ```ruby
+require 'view_matchers'
+
 RSpec.configure do |config|
   config.include ViewMatchers
 end
