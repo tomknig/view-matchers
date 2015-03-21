@@ -1,4 +1,4 @@
-require 'view/matchers/form_matcher/form'
+require 'view_matchers/form_matcher/form'
 
 module ViewMatchers
   class FormMatcher

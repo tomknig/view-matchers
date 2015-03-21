@@ -1,7 +1,8 @@
 require 'nokogiri'
 
-require 'view/matchers/table_matcher'
-require 'view/matchers/form_matcher'
+require 'view_matchers/table_matcher'
+require 'view_matchers/form_matcher'
+require 'view_matchers/version'
 
 module ViewMatchers
   def match_form(block)

@@ -1,4 +1,4 @@
-require 'view/matchers/table_matcher/table'
+require 'view_matchers/table_matcher/table'
 
 module ViewMatchers
   class ASCIITable < Table

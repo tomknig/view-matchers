@@ -1,5 +1,5 @@
-require 'view/matchers/table_matcher/ascii_table'
-require 'view/matchers/table_matcher/html_table'
+require 'view_matchers/table_matcher/ascii_table'
+require 'view_matchers/table_matcher/html_table'
 
 module ViewMatchers
   class TableMatcher
