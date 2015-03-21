@@ -4,6 +4,10 @@ Expressive RSpec matchers for ascii tables and form fields.
 * **[match_table](#match_table)**: write ascii tables and match their existence
 * **[match_form](#match_form)**: match form fields with an expressive dsl
 
+[![Build Status](https://travis-ci.org/TomKnig/view-matchers.svg)](https://travis-ci.org/TomKnig/view-matchers)
+[![Code Climate](https://codeclimate.com/github/TomKnig/view-matchers/badges/gpa.svg)](https://codeclimate.com/github/TomKnig/view-matchers)
+[![Test Coverage](https://codeclimate.com/github/TomKnig/view-matchers/badges/coverage.svg)](https://codeclimate.com/github/TomKnig/view-matchers)
+
 ## Installation
 
 #### Gem
